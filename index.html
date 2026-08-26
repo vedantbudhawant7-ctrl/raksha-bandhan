@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Happy Raksha Bandhan</title>
+  <link rel="stylesheet" href="rakhi.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Floating Sparkles -->
+  <canvas id="particles"></canvas>
+
+  <main class="app-container">
+    <header class="header">
+      <h1 class="title">Happy Raksha Bandhan</h1>
+      <p class="subtitle">A bond of eternal love & protection ✨</p>
+    </header>
+
+    <!-- Interactive Rakhi Area -->
+    <section class="action-card">
+      <p id="instruction-text" class="instruction">Drag or Tap Rakhi to tie it on the wrist 👇</p>
+      
+      <div class="interactive-arena">
+        <!-- Draggable Rakhi -->
+        <div id="rakhi" class="rakhi-item" draggable="true">
+          <svg viewBox="0 0 100 100" class="rakhi-svg">
+            <line x1="0" y1="50" x2="100" y2="50" stroke="var(--gold)" stroke-width="4" stroke-dasharray="3,2"/>
+            <circle cx="50" cy="50" r="28" fill="var(--maroon)" stroke="var(--gold)" stroke-width="3" />
+            <circle cx="50" cy="50" r="20" fill="var(--maroon2)" stroke="var(--gold-light)" stroke-width="2" />
+            <circle cx="50" cy="50" r="10" fill="var(--gold)" />
+            <circle cx="50" cy="50" r="4" fill="var(--cream)" />
+            <circle cx="50" cy="22" r="4" fill="var(--gold-light)" />
+            <circle cx="50" cy="78" r="4" fill="var(--gold-light)" />
+            <circle cx="22" cy="50" r="4" fill="var(--gold-light)" />
+            <circle cx="78" cy="50" r="4" fill="var(--gold-light)" />
+          </svg>
+        </div>
+
+        <!-- Drop Target (Wrist) -->
+        <div id="wrist-zone" class="wrist-zone">
+          <span class="drop-text">Wrist Target ✨</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Personalized Sibling Greeting Card -->
+    <section id="greeting-section" class="greeting-section locked">
+      <div class="flip-card" id="flip-card">
+        <div class="flip-card-inner">
+          
+          <!-- Card Front -->
+          <div class="flip-card-front">
+            <div class="badge">Special Gift 🎁</div>
+            <h2>🌸 माझ्या दोन्ही लाडक्या दिदींसाठी 🌸</h2>
+            <p class="tap-hint">Tap to open your message 💌</p>
+          </div>
+
+          <!-- Card Back -->
+          <div class="flip-card-back">
+            <h3>Dearest Paduu Didi & Sauuu Di ❤️</h3>
+            <div class="message-body">
+              <p>
+                माझ्या दोन्ही लाडक्या दिदी साठी — एकीकडे आईसारखी माया आणि काळजी घेणारी, मला समजून घेणारी 
+                <span class="highlight">Paduu Didi (Babyuchi mamma😘)❤️‍🩹</span> 
+                आणि दुसरीकडे मला पैसे पुरवणारी 😜 मला motivate करणारी 
+                <span class="highlight">Sauuu di🥰</span>!
+              </p>
+              <p style="margin-top: 8px;">
+                तुम्ही दोघी सोबत असलात की मला कशाचीच कमी वाटत नाही. तुमचं हेच प्रेम, सपोर्ट आणि आशीर्वाद माझ्यावर आयुष्यभर असाच राहू द्या.
+              </p>
+              <p class="wish-highlight">Happy Raksha Bandhan to my two pillars of strength! 🌸💫</p>
+            </div>
+            <p class="signature">— Always your loving brother ❤️</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const rakhi = document.getElementById('rakhi');
+    const wristZone = document.getElementById('wrist-zone');
+    const greetingSection = document.getElementById('greeting-section');
+    const instructionText = document.getElementById('instruction-text');
+    const flipCard = document.getElementById('flip-card');
+
+    let isTied = false;
+
+    function tieRakhi() {
+      if (isTied) return;
+      isTied = true;
+      
+      wristZone.innerHTML = '';
+      wristZone.appendChild(rakhi);
+      rakhi.removeAttribute('draggable');
+      rakhi.classList.add('tied');
+      
+      instructionText.innerText = "🎉 Rakhi tied successfully! Open your card below.";
+      
+      greetingSection.classList.remove('locked');
+      greetingSection.classList.add('unlocked');
+      
+      // Auto-scroll slightly to show the unlocked card on small screens
+      setTimeout(() => {
+        greetingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 400);
+    }
+
+    // --- Desktop Drag & Drop ---
+    rakhi.addEventListener('dragstart', (e) => e.dataTransfer.setData('text/plain', 'rakhi'));
+    wristZone.addEventListener('dragover', (e) => { e.preventDefault(); wristZone.classList.add('hover'); });
+    wristZone.addEventListener('dragleave', () => wristZone.classList.remove('hover'));
+    wristZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      wristZone.classList.remove('hover');
+      tieRakhi();
+    });
+
+    // --- Mobile Touch Drag & Tap Support ---
+    rakhi.addEventListener('click', tieRakhi);
+
+    let startX = 0, startY = 0;
+    rakhi.addEventListener('touchstart', (e) => {
+      if (isTied) return;
+      const touch = e.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+    }, { passive: true });
+
+    rakhi.addEventListener('touchmove', (e) => {
+      if (isTied) return;
+      const touch = e.touches[0];
+      rakhi.style.position = 'fixed';
+      rakhi.style.left = `${touch.clientX - 45}px`;
+      rakhi.style.top = `${touch.clientY - 45}px`;
+      rakhi.style.zIndex = '999';
+    }, { passive: true });
+
+    rakhi.addEventListener('touchend', (e) => {
+      if (isTied) return;
+      rakhi.style.position = 'static';
+      rakhi.style.zIndex = 'auto';
+
+      const touch = e.changedTouches[0];
+      const wristRect = wristZone.getBoundingClientRect();
+
+      // Check if dropped within wrist boundary
+      if (
+        touch.clientX >= wristRect.left &&
+        touch.clientX <= wristRect.right &&
+        touch.clientY >= wristRect.top &&
+        touch.clientY <= wristRect.bottom
+      ) {
+        tieRakhi();
+      } else {
+        // Tap fallback if touch barely moved
+        const dist = Math.hypot(touch.clientX - startX, touch.clientY - startY);
+        if (dist < 15) {
+          tieRakhi();
+        }
+      }
+    });
+
+    // --- Flip Card Trigger ---
+    flipCard.addEventListener('click', () => {
+      if (isTied) {
+        flipCard.classList.toggle('flipped');
+      }
+    });
+
+    // --- Sparkle Particles ---
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    let particles = Array.from({ length: 30 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 2 + 1,
+      speedY: Math.random() * 0.6 + 0.2,
+      color: ['#C9A227', '#E6C158', '#FBF3E3'][Math.floor(Math.random() * 3)]
+    }));
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.y -= p.speedY;
+        if (p.y < 0) {
+          p.y = canvas.height;
+          p.x = Math.random() * canvas.width;
+        }
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html> 

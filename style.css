@@ -1,0 +1,259 @@
+:root {
+  --maroon: #4a0a16;
+  --maroon2: #7A1B2E;
+  --beige: #E7D3AC;
+  --cream: #FDF9F0;
+  --gold: #C9A227;
+  --gold-light: #F7D774;
+  --ink: #221008;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: radial-gradient(circle at 50% 10%, #7A1B2E 0%, #3e0712 60%, #1f0308 100%);
+  color: var(--cream);
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overflow-x: hidden;
+}
+
+#particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+}
+
+.title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.65rem;
+  color: var(--gold-light);
+  letter-spacing: 1px;
+  text-shadow: 0 2px 10px rgba(247, 215, 116, 0.3);
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: var(--beige);
+  margin-top: 4px;
+}
+
+/* Action / Tying Arena */
+.action-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(201, 162, 39, 0.25);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.instruction {
+  font-size: 0.85rem;
+  color: var(--gold-light);
+  margin-bottom: 14px;
+}
+
+.interactive-arena {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 12px;
+}
+
+.rakhi-item {
+  width: 85px;
+  height: 85px;
+  cursor: grab;
+  touch-action: none;
+  transition: transform 0.2s ease;
+}
+
+.rakhi-item.tied {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rakhi-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
+
+.wrist-zone {
+  width: 120px;
+  height: 85px;
+  border: 2px dashed var(--gold);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(201, 162, 39, 0.08);
+  transition: background 0.3s ease;
+}
+
+.wrist-zone.hover {
+  background: rgba(201, 162, 39, 0.25);
+}
+
+.drop-text {
+  font-size: 0.75rem;
+  color: var(--beige);
+}
+
+/* Greeting Section */
+.greeting-section.locked {
+  opacity: 0.35;
+  filter: grayscale(0.9);
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.greeting-section.unlocked {
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* 3D Flip Card */
+.flip-card {
+  perspective: 1200px;
+  width: 100%;
+  min-height: 380px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  min-height: 380px;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 380px;
+  backface-visibility: hidden;
+  border-radius: 18px;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1.5px solid var(--gold);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.flip-card-front {
+  background: linear-gradient(145deg, #681121, #3c0610);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.badge {
+  background: rgba(201, 162, 39, 0.2);
+  color: var(--gold-light);
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--gold);
+  margin-bottom: 12px;
+}
+
+.flip-card-front h2 {
+  font-size: 1.15rem;
+  color: var(--cream);
+  line-height: 1.5;
+}
+
+.tap-hint {
+  font-size: 0.8rem;
+  color: var(--gold-light);
+  margin-top: 14px;
+}
+
+.flip-card-back {
+  background: var(--cream);
+  color: var(--ink);
+  transform: rotateY(180deg);
+  text-align: left;
+}
+
+.flip-card-back h3 {
+  color: var(--maroon2);
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  border-bottom: 1px solid rgba(122, 27, 46, 0.2);
+  padding-bottom: 6px;
+  text-align: center;
+}
+
+.message-body {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #2e1810;
+  margin: 10px 0;
+}
+
+.highlight {
+  color: var(--maroon2);
+  font-weight: 600;
+}
+
+.wish-highlight {
+  margin-top: 8px;
+  font-weight: 600;
+  color: #8c1d33;
+}
+
+.signature {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--maroon2);
+  text-align: right;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
