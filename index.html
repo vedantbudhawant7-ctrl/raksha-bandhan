@@ -3,209 +3,332 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Happy Raksha Bandhan</title>
-  <link rel="stylesheet" href="rakhi.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <title>Happy Raksha Bandhan | माझ्या लाडक्या दिदींसाठी</title>
+  
+  <!-- Google Fonts required by your CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400;1,600&family=Noto+Serif+Devanagari:wght@500;700&family=Poppins:wght@300;400;600&family=Yatra+One&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* Specific typography adjustment for the detailed Marathi greeting */
+    .face.back .msg {
+      font-size: 0.96rem !important;
+      line-height: 1.6 !important;
+      font-family: 'Poppins', sans-serif !important;
+      font-weight: 400;
+      color: var(--ink);
+    }
+    .highlight-name {
+      color: var(--maroon2);
+      font-weight: 600;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Floating Sparkles -->
-  <canvas id="particles"></canvas>
+  <!-- Golden Mouse/Touch Trail Canvas & Dot -->
+  <canvas id="trailCanvas"></canvas>
+  <div id="dot"></div>
 
-  <main class="app-container">
-    <header class="header">
-      <h1 class="title">Happy Raksha Bandhan</h1>
-      <p class="subtitle">A bond of eternal love & protection ✨</p>
-    </header>
-
-    <!-- Interactive Rakhi Area -->
-    <section class="action-card">
-      <p id="instruction-text" class="instruction">Drag or Tap Rakhi to tie it on the wrist 👇</p>
-      
-      <div class="interactive-arena">
-        <!-- Draggable Rakhi -->
-        <div id="rakhi" class="rakhi-item" draggable="true">
-          <svg viewBox="0 0 100 100" class="rakhi-svg">
-            <line x1="0" y1="50" x2="100" y2="50" stroke="var(--gold)" stroke-width="4" stroke-dasharray="3,2"/>
-            <circle cx="50" cy="50" r="28" fill="var(--maroon)" stroke="var(--gold)" stroke-width="3" />
-            <circle cx="50" cy="50" r="20" fill="var(--maroon2)" stroke="var(--gold-light)" stroke-width="2" />
-            <circle cx="50" cy="50" r="10" fill="var(--gold)" />
-            <circle cx="50" cy="50" r="4" fill="var(--cream)" />
-            <circle cx="50" cy="22" r="4" fill="var(--gold-light)" />
-            <circle cx="50" cy="78" r="4" fill="var(--gold-light)" />
-            <circle cx="22" cy="50" r="4" fill="var(--gold-light)" />
-            <circle cx="78" cy="50" r="4" fill="var(--gold-light)" />
-          </svg>
-        </div>
-
-        <!-- Drop Target (Wrist) -->
-        <div id="wrist-zone" class="wrist-zone">
-          <span class="drop-text">Wrist Target ✨</span>
-        </div>
+  <!-- 1. Hero / Animated Opening Sequence -->
+  <section id="hero">
+    <div class="intro">
+      <!-- Loading Step -->
+      <div class="intro-loading show" id="step-loading">
+        Loading Rakhi Memories<span class="dots"><span>.</span><span>.</span><span>.</span></span>
       </div>
-    </section>
 
-    <!-- Personalized Sibling Greeting Card -->
-    <section id="greeting-section" class="greeting-section locked">
-      <div class="flip-card" id="flip-card">
-        <div class="flip-card-inner">
+      <!-- Gift Box Step -->
+      <div class="intro-gift" id="step-gift">
+        🎁
+        <span class="gift-hint">Tap to untie the thread ✨</span>
+      </div>
+
+      <!-- Thread Animations -->
+      <div class="thread-half thread-left" id="thread-left"></div>
+      <div class="thread-half thread-right" id="thread-right"></div>
+
+      <!-- Intro Rakhi Graphic -->
+      <div class="intro-rakhi" id="intro-rakhi">
+        <svg viewBox="0 0 100 100" style="width:100%;">
+          <line x1="0" y1="50" x2="100" y2="50" stroke="var(--gold)" stroke-width="4" stroke-dasharray="3,2"/>
+          <circle cx="50" cy="50" r="28" fill="var(--maroon)" stroke="var(--gold)" stroke-width="3" />
+          <circle cx="50" cy="50" r="20" fill="var(--maroon2)" stroke="var(--gold-light)" stroke-width="2" />
+          <circle cx="50" cy="50" r="10" fill="var(--gold)" />
+          <circle cx="50" cy="50" r="4" fill="var(--cream)" />
+          <circle cx="50" cy="22" r="4" fill="var(--gold-light)" />
+          <circle cx="50" cy="78" r="4" fill="var(--gold-light)" />
+          <circle cx="22" cy="50" r="4" fill="var(--gold-light)" />
+          <circle cx="78" cy="50" r="4" fill="var(--gold-light)" />
+        </svg>
+      </div>
+
+      <!-- Intro Finale Greeting -->
+      <div class="intro-finale" id="intro-finale">
+        <span class="finale-heart">🌸</span>
+        <h1 class="finale-title">Happy Raksha Bandhan</h1>
+        <p class="finale-hindi">माझ्या दोन्ही लाडक्या दिदींसाठी</p>
+      </div>
+
+      <!-- Scroll Cue -->
+      <div class="intro-scrollcue" id="intro-scrollcue">
+        ↓ Scroll to Tie Rakhi ↓
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Rakhi Showcase -->
+  <section id="showcase">
+    <div class="rakhi-slot">
+      <svg viewBox="0 0 100 100" style="width:100%;">
+        <line x1="0" y1="50" x2="100" y2="50" stroke="var(--gold)" stroke-width="4" stroke-dasharray="3,2"/>
+        <circle cx="50" cy="50" r="28" fill="var(--maroon)" stroke="var(--gold)" stroke-width="3" />
+        <circle cx="50" cy="50" r="20" fill="var(--maroon2)" stroke="var(--gold-light)" stroke-width="2" />
+        <circle cx="50" cy="50" r="10" fill="var(--gold)" />
+        <circle cx="50" cy="50" r="4" fill="var(--cream)" />
+        <circle cx="50" cy="22" r="4" fill="var(--gold-light)" />
+        <circle cx="50" cy="78" r="4" fill="var(--gold-light)" />
+        <circle cx="22" cy="50" r="4" fill="var(--gold-light)" />
+        <circle cx="78" cy="50" r="4" fill="var(--gold-light)" />
+      </svg>
+    </div>
+    <p class="showcase-caption">A pure bond stitched with love, care & memories</p>
+  </section>
+
+  <!-- 3. Tie Interaction Area -->
+  <section id="tie">
+    <h2 class="tie-title">राखी बांधा</h2>
+    <p class="tie-sub">Drag or tap the Rakhi onto the wrist</p>
+
+    <div class="tie-stage" id="stage">
+      <div class="drop-zone" id="dropZone"></div>
+      <div id="wrist" style="font-size:3.5rem;">✋</div>
+      <div id="dragRakhi" draggable="true">
+        <svg viewBox="0 0 100 100" style="width:100%;">
+          <line x1="0" y1="50" x2="100" y2="50" stroke="var(--gold)" stroke-width="4" stroke-dasharray="3,2"/>
+          <circle cx="50" cy="50" r="28" fill="var(--maroon)" stroke="var(--gold)" stroke-width="3" />
+          <circle cx="50" cy="50" r="20" fill="var(--maroon2)" stroke="var(--gold-light)" stroke-width="2" />
+          <circle cx="50" cy="50" r="10" fill="var(--gold)" />
+          <circle cx="50" cy="50" r="4" fill="var(--cream)" />
+          <circle cx="50" cy="22" r="4" fill="var(--gold-light)" />
+          <circle cx="50" cy="78" r="4" fill="var(--gold-light)" />
+          <circle cx="22" cy="50" r="4" fill="var(--gold-light)" />
+          <circle cx="78" cy="50" r="4" fill="var(--gold-light)" />
+        </svg>
+      </div>
+    </div>
+    <p class="hint" id="tieHint">Drag the sacred Rakhi to complete the bond ✨</p>
+  </section>
+
+  <!-- 4. Personalized Card Section -->
+  <section id="card-section">
+    <h2 class="card-title">खास तुमच्यासाठी 💌</h2>
+    <p class="card-sub">Tap the golden card to reveal your message</p>
+
+    <div class="thread-column">
+      <div class="thread-bead"></div>
+
+      <!-- 3D Flip Card -->
+      <div class="flip-card" id="flipCard">
+        <div class="flip-inner">
           
-          <!-- Card Front -->
-          <div class="flip-card-front">
-            <div class="badge">Special Gift 🎁</div>
-            <h2>🌸 माझ्या दोन्ही लाडक्या दिदींसाठी 🌸</h2>
-            <p class="tap-hint">Tap to open your message 💌</p>
+          <!-- Front Face -->
+          <div class="face front">
+            <div class="rakhi-mini">
+              <svg viewBox="0 0 100 100" style="width:100%;">
+                <circle cx="50" cy="50" r="28" fill="var(--maroon)" stroke="var(--gold)" stroke-width="3" />
+                <circle cx="50" cy="50" r="18" fill="var(--gold)" />
+                <circle cx="50" cy="50" r="8" fill="var(--cream)" />
+              </svg>
+            </div>
+            <p>🌸 माझ्या दोन्ही लाडक्या दिदींसाठी 🌸</p>
+            <span class="tap">✨ Tap card to open ✨</span>
           </div>
 
-          <!-- Card Back -->
-          <div class="flip-card-back">
-            <h3>Dearest Paduu Didi & Sauuu Di ❤️</h3>
-            <div class="message-body">
-              <p>
-                माझ्या दोन्ही लाडक्या दिदी साठी — एकीकडे आईसारखी माया आणि काळजी घेणारी, मला समजून घेणारी 
-                <span class="highlight">Paduu Didi (Babyuchi mamma😘)❤️‍🩹</span> 
-                आणि दुसरीकडे मला पैसे पुरवणारी 😜 मला motivate करणारी 
-                <span class="highlight">Sauuu di🥰</span>!
-              </p>
-              <p style="margin-top: 8px;">
-                तुम्ही दोघी सोबत असलात की मला कशाचीच कमी वाटत नाही. तुमचं हेच प्रेम, सपोर्ट आणि आशीर्वाद माझ्यावर आयुष्यभर असाच राहू द्या.
-              </p>
-              <p class="wish-highlight">Happy Raksha Bandhan to my two pillars of strength! 🌸💫</p>
+          <!-- Back Face (Personalized Message) -->
+          <div class="face back">
+            <h3 style="font-family:'Yatra One'; color:var(--maroon); margin-bottom:12px; font-size:1.15rem;">
+              Dearest Paduu Didi & Sauuu Di ❤️
+            </h3>
+            <div class="msg">
+              माझ्या दोन्ही लाडक्या दिदी साठी — एकीकडे आईसारखी माया आणि काळजी घेणारी, मला समजून घेणारी 
+              <span class="highlight-name">Paduu Didi (Babyuchi mamma😘)❤️‍🩹</span> 
+              आणि दुसरीकडे मला पैसे पुरवणारी 😜 मला motivate करणारी 
+              <span class="highlight-name">Sauuu di🥰</span>!
+              <br><br>
+              तुम्ही दोघी सोबत असलात की मला कशाचीच कमी वाटत नाही. तुमचं हेच प्रेम, सपोर्ट आणि आशीर्वाद माझ्यावर आयुष्यभर असाच राहू द्या.
+              <br><br>
+              <strong style="color:var(--maroon2);">Happy Raksha Bandhan to my two pillars of strength!</strong> Always grateful for you both. 🌸💫
             </div>
-            <p class="signature">— Always your loving brother ❤️</p>
+            <div class="sign">— Always your loving brother ❤️</div>
           </div>
 
         </div>
       </div>
-    </section>
-  </main>
 
+      <div class="thread-bead"></div>
+    </div>
+  </section>
+
+  <!-- 5. Floating Gifts Finale -->
+  <section id="finale">
+    <div class="finale-text">Always Protected • Forever Loved</div>
+    <div class="finale-sub">Happy Raksha Bandhan 🌸💫</div>
+  </section>
+
+  <footer>
+    Made with love for Paduu Didi & Sauuu Di ❤️
+  </footer>
+
+  <!-- Interactive JavaScript Engine -->
   <script>
-    const rakhi = document.getElementById('rakhi');
-    const wristZone = document.getElementById('wrist-zone');
-    const greetingSection = document.getElementById('greeting-section');
-    const instructionText = document.getElementById('instruction-text');
-    const flipCard = document.getElementById('flip-card');
+    // --- 1. Opening Animation Sequence ---
+    const stepLoading = document.getElementById('step-loading');
+    const stepGift = document.getElementById('step-gift');
+    const threadLeft = document.getElementById('thread-left');
+    const threadRight = document.getElementById('thread-right');
+    const introRakhi = document.getElementById('intro-rakhi');
+    const introFinale = document.getElementById('intro-finale');
+    const introScrollcue = document.getElementById('intro-scrollcue');
 
+    setTimeout(() => {
+      stepLoading.classList.remove('show');
+      stepGift.classList.add('show');
+    }, 1200);
+
+    stepGift.addEventListener('click', () => {
+      stepGift.classList.remove('show');
+      threadLeft.classList.add('show');
+      threadRight.classList.add('show');
+      introRakhi.classList.add('show');
+
+      setTimeout(() => {
+        introRakhi.classList.add('settled');
+        introFinale.classList.add('show');
+        introScrollcue.classList.add('show');
+      }, 900);
+    });
+
+    // --- 2. Rakhi Tying Drag & Drop (Desktop & Touch) ---
+    const dragRakhi = document.getElementById('dragRakhi');
+    const dropZone = document.getElementById('dropZone');
+    const stage = document.getElementById('stage');
+    const tieHint = document.getElementById('tieHint');
+    const cardSection = document.getElementById('card-section');
     let isTied = false;
 
-    function tieRakhi() {
+    function completeTying() {
       if (isTied) return;
       isTied = true;
+      dragRakhi.classList.add('tied');
+      dragRakhi.style.position = 'relative';
+      dragRakhi.style.top = '0';
+      dragRakhi.style.left = '0';
+      dragRakhi.removeAttribute('draggable');
       
-      wristZone.innerHTML = '';
-      wristZone.appendChild(rakhi);
-      rakhi.removeAttribute('draggable');
-      rakhi.classList.add('tied');
+      tieHint.innerText = "🎉 Rakhi tied! Your special greeting is unlocked below.";
+      tieHint.classList.add('done');
       
-      instructionText.innerText = "🎉 Rakhi tied successfully! Open your card below.";
-      
-      greetingSection.classList.remove('locked');
-      greetingSection.classList.add('unlocked');
-      
-      // Auto-scroll slightly to show the unlocked card on small screens
+      cardSection.classList.add('unlocked');
       setTimeout(() => {
-        greetingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 400);
+        cardSection.scrollIntoView({ behavior: 'smooth' });
+      }, 500);
     }
 
-    // --- Desktop Drag & Drop ---
-    rakhi.addEventListener('dragstart', (e) => e.dataTransfer.setData('text/plain', 'rakhi'));
-    wristZone.addEventListener('dragover', (e) => { e.preventDefault(); wristZone.classList.add('hover'); });
-    wristZone.addEventListener('dragleave', () => wristZone.classList.remove('hover'));
-    wristZone.addEventListener('drop', (e) => {
+    dragRakhi.addEventListener('click', completeTying);
+
+    // Desktop HTML5 drag
+    dragRakhi.addEventListener('dragstart', (e) => e.dataTransfer.setData('text', 'rakhi'));
+    stage.addEventListener('dragover', (e) => e.preventDefault());
+    stage.addEventListener('drop', (e) => {
       e.preventDefault();
-      wristZone.classList.remove('hover');
-      tieRakhi();
+      completeTying();
     });
 
-    // --- Mobile Touch Drag & Tap Support ---
-    rakhi.addEventListener('click', tieRakhi);
-
-    let startX = 0, startY = 0;
-    rakhi.addEventListener('touchstart', (e) => {
+    // Mobile touch drag
+    dragRakhi.addEventListener('touchmove', (e) => {
       if (isTied) return;
       const touch = e.touches[0];
-      startX = touch.clientX;
-      startY = touch.clientY;
+      const rect = stage.getBoundingClientRect();
+      dragRakhi.style.position = 'fixed';
+      dragRakhi.style.left = `${touch.clientX - 55}px`;
+      dragRakhi.style.top = `${touch.clientY - 55}px`;
     }, { passive: true });
 
-    rakhi.addEventListener('touchmove', (e) => {
+    dragRakhi.addEventListener('touchend', (e) => {
       if (isTied) return;
-      const touch = e.touches[0];
-      rakhi.style.position = 'fixed';
-      rakhi.style.left = `${touch.clientX - 45}px`;
-      rakhi.style.top = `${touch.clientY - 45}px`;
-      rakhi.style.zIndex = '999';
-    }, { passive: true });
-
-    rakhi.addEventListener('touchend', (e) => {
-      if (isTied) return;
-      rakhi.style.position = 'static';
-      rakhi.style.zIndex = 'auto';
-
       const touch = e.changedTouches[0];
-      const wristRect = wristZone.getBoundingClientRect();
-
-      // Check if dropped within wrist boundary
+      const dropRect = dropZone.getBoundingClientRect();
       if (
-        touch.clientX >= wristRect.left &&
-        touch.clientX <= wristRect.right &&
-        touch.clientY >= wristRect.top &&
-        touch.clientY <= wristRect.bottom
+        touch.clientX >= dropRect.left &&
+        touch.clientX <= dropRect.right &&
+        touch.clientY >= dropRect.top &&
+        touch.clientY <= dropRect.bottom
       ) {
-        tieRakhi();
+        completeTying();
       } else {
-        // Tap fallback if touch barely moved
-        const dist = Math.hypot(touch.clientX - startX, touch.clientY - startY);
-        if (dist < 15) {
-          tieRakhi();
-        }
+        dragRakhi.style.position = 'absolute';
+        completeTying();
       }
     });
 
-    // --- Flip Card Trigger ---
+    // --- 3. Flip Card Interaction ---
+    const flipCard = document.getElementById('flipCard');
     flipCard.addEventListener('click', () => {
-      if (isTied) {
-        flipCard.classList.toggle('flipped');
-      }
+      flipCard.classList.toggle('flipped');
     });
 
-    // --- Sparkle Particles ---
-    const canvas = document.getElementById('particles');
+    // --- 4. Golden Trail & Sparkle Canvas ---
+    const canvas = document.getElementById('trailCanvas');
     const ctx = canvas.getContext('2d');
-    
-    function resizeCanvas() {
+    const dot = document.getElementById('dot');
+
+    function resize() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    resize();
+    window.addEventListener('resize', resize);
 
-    let particles = Array.from({ length: 30 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      size: Math.random() * 2 + 1,
-      speedY: Math.random() * 0.6 + 0.2,
-      color: ['#C9A227', '#E6C158', '#FBF3E3'][Math.floor(Math.random() * 3)]
-    }));
+    let trail = [];
+    window.addEventListener('mousemove', (e) => {
+      dot.style.left = `${e.clientX}px`;
+      dot.style.top = `${e.clientY}px`;
+      trail.push({ x: e.clientX, y: e.clientY, alpha: 1 });
+    });
 
-    function animate() {
+    function drawTrail() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.y -= p.speedY;
-        if (p.y < 0) {
-          p.y = canvas.height;
-          p.x = Math.random() * canvas.width;
-        }
-        ctx.fillStyle = p.color;
+      for (let i = 0; i < trail.length; i++) {
+        const p = trail[i];
+        p.alpha -= 0.025;
+        ctx.fillStyle = `rgba(230, 193, 88, ${p.alpha})`;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
         ctx.fill();
-      });
-      requestAnimationFrame(animate);
+      }
+      trail = trail.filter(p => p.alpha > 0);
+      requestAnimationFrame(drawTrail);
     }
-    animate();
+    drawTrail();
+
+    // --- 5. Floating Finale Gifts Generation ---
+    const finaleSection = document.getElementById('finale');
+    const giftIcons = ['🎁', '✨', '🌸', '💫', '💖'];
+    for (let i = 0; i < 14; i++) {
+      const g = document.createElement('div');
+      g.className = 'gift';
+      g.innerText = giftIcons[Math.floor(Math.random() * giftIcons.length)];
+      g.style.left = `${Math.random() * 90}%`;
+      g.style.animationDuration = `${4 + Math.random() * 4}s`;
+      g.style.animationDelay = `${Math.random() * 5}s`;
+      g.style.setProperty('--drift', `${(Math.random() - 0.5) * 80}px`);
+      finaleSection.appendChild(g);
+    }
   </script>
 </body>
-</html> 
+</html>
